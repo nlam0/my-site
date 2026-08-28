@@ -1,5 +1,51 @@
 ---
+const workItems = [
+	{
+		title: "project one",
+		year: "2024",
+		description: "short one-line description of the project and what it does.",
+		href: "https://example.com",
+	},
+	{
+		title: "project two",
+		year: "2023",
+		description: "short one-line description of the project and what it does.",
+		href: "https://example.com",
+	},
+	{
+		title: "project three",
+		year: "2022",
+		description: "short one-line description of the project and what it does.",
+		href: "https://example.com",
+	},
+];
 
+const writingItems = [
+	{
+		title: "title of an essay or post",
+		date: "jan 2026",
+		href: "https://example.com",
+	},
+	{
+		title: "another piece of writing",
+		date: "sep 2025",
+		href: "https://example.com",
+	},
+	{
+		title: "a third piece worth linking",
+		date: "mar 2025",
+		href: "https://example.com",
+	},
+];
+
+const nowItems = [
+	"based in — new york, new york",
+	"currently — what you're working on",
+	"reading — outline by rachel cusk",
+	"interested in — a topic or two",
+];
+
+const email = "n@nicklam.co";
 ---
 
 <html lang="en">
@@ -7,11 +53,171 @@
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>nick lam</title>
+		<meta name="description" content="personal site of nick lam." />
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div class="page">
+			<header class="intro">
+				<h1>nick lam</h1>
+				<p class="description">
+					one short line about who you are and what you do, written plainly.
+				</p>
+			</header>
+
+			<main>
+				<section aria-labelledby="work-heading">
+					<h2 id="work-heading">selected work</h2>
+					<ul class="entry-list">
+						{workItems.map((item) => (
+							<li>
+								<a href={item.href}>{item.title}</a>
+								<span class="meta">{item.year}</span>
+								<p>{item.description}</p>
+							</li>
+						))}
+					</ul>
+				</section>
+
+				<section aria-labelledby="writing-heading">
+					<h2 id="writing-heading">writing</h2>
+					<ul class="entry-list">
+						{writingItems.map((item) => (
+							<li>
+								<a href={item.href}>{item.title}</a>
+								<span class="meta">{item.date}</span>
+							</li>
+						))}
+					</ul>
+				</section>
+
+				<section aria-labelledby="now-heading">
+					<h2 id="now-heading">currently</h2>
+					<ul class="now-list">
+						{nowItems.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				</section>
+
+				<section aria-labelledby="contact-heading">
+					<h2 id="contact-heading">email</h2>
+					<p><a href={`mailto:${email}`}>{email}</a></p>
+				</section>
+			</main>
+		</div>
 	</body>
 </html>
+
+<style>
+	:global(html) {
+		box-sizing: border-box;
+	}
+	:global(*),
+	:global(*::before),
+	:global(*::after) {
+		box-sizing: inherit;
+	}
+	:global(body) {
+		margin: 0;
+		background: #fdfdfb;
+		color: #000;
+		font-family: "Times New Roman", Times, "Liberation Serif", "Nimbus Roman", serif;
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.page {
+		max-width: 38rem;
+		margin: 0 auto;
+		padding: 2.5rem 1.5rem 3rem;
+	}
+
+	.intro {
+		margin-bottom: 2.5rem;
+	}
+
+	h1 {
+		font-size: 1.25rem;
+		font-weight: 400;
+		margin: 0 0 0.4rem;
+	}
+
+	.description {
+		margin: 0;
+		max-width: 32ch;
+		color: #000;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	h2 {
+		font-size: 0.75rem;
+		font-weight: 400;
+		font-style: italic;
+		color: #000;
+		margin: 0 0 0.75rem;
+	}
+
+	.entry-list,
+	.now-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.entry-list li {
+		margin-bottom: 0.75rem;
+	}
+	.entry-list li:last-child {
+		margin-bottom: 0;
+	}
+
+	.entry-list a {
+		color: inherit;
+	}
+
+	.entry-list .meta {
+		color: #000;
+		font-size: 0.75rem;
+		margin-left: 0.5rem;
+	}
+
+	.entry-list p {
+		margin: 0.125rem 0 0;
+		color: #000;
+		max-width: 42ch;
+	}
+
+	.now-list li {
+		margin-bottom: 0.25rem;
+	}
+	.now-list li:last-child {
+		margin-bottom: 0;
+	}
+
+	a {
+		color: #000;
+		text-decoration-color: #000;
+		text-underline-offset: 3px;
+	}
+
+	@media (max-width: 30rem) {
+		.page {
+			padding: 2rem 1.25rem 2.5rem;
+		}
+		.intro {
+			margin-bottom: 2rem;
+		}
+		main {
+			gap: 1.5rem;
+		}
+	}
+</style>
