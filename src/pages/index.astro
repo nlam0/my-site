@@ -1,51 +1,21 @@
 ---
-const workItems = [
-	{
-		title: "project one",
-		year: "2024",
-		description: "short one-line description of the project and what it does.",
-		href: "https://example.com",
-	},
-	{
-		title: "project two",
-		year: "2023",
-		description: "short one-line description of the project and what it does.",
-		href: "https://example.com",
-	},
-	{
-		title: "project three",
-		year: "2022",
-		description: "short one-line description of the project and what it does.",
-		href: "https://example.com",
-	},
-];
-
-const writingItems = [
-	{
-		title: "title of an essay or post",
-		date: "jan 2026",
-		href: "https://example.com",
-	},
-	{
-		title: "another piece of writing",
-		date: "sep 2025",
-		href: "https://example.com",
-	},
-	{
-		title: "a third piece worth linking",
-		date: "mar 2025",
-		href: "https://example.com",
-	},
-];
+import { recently } from "../data/recently";
 
 const nowItems = [
-	"based in — new york, new york",
-	"currently — what you're working on",
-	"reading — outline by rachel cusk",
-	"interested in — a topic or two",
+	"new york, ny",
+	"working on a redesign of this site",
+	"reading outline by rachel cusk",
+	"thinking about a topic or two",
+];
+
+const eventuallyItems = [
+	"a longer piece of writing",
+	"a project that's still just notes",
+	"somewhere new",
 ];
 
 const email = "n@nicklam.co";
+const lastEdited = "08.29.2026";
 ---
 
 <html lang="en">
@@ -60,38 +30,11 @@ const email = "n@nicklam.co";
 	</head>
 	<body>
 		<div class="page">
-			<header class="intro">
-				<h1>nick lam</h1>
+			<header class="masthead">
+				<h1>nick lam<span class="birth">b. 2004</span></h1>
 				<p class="description">
-					one short line about who you are and what you do, written plainly.
+					interested in cities, technology, and culture.
 				</p>
-			</header>
-
-			<main>
-				<section aria-labelledby="work-heading">
-					<h2 id="work-heading">selected work</h2>
-					<ul class="entry-list">
-						{workItems.map((item) => (
-							<li>
-								<a href={item.href}>{item.title}</a>
-								<span class="meta">{item.year}</span>
-								<p>{item.description}</p>
-							</li>
-						))}
-					</ul>
-				</section>
-
-				<section aria-labelledby="writing-heading">
-					<h2 id="writing-heading">writing</h2>
-					<ul class="entry-list">
-						{writingItems.map((item) => (
-							<li>
-								<a href={item.href}>{item.title}</a>
-								<span class="meta">{item.date}</span>
-							</li>
-						))}
-					</ul>
-				</section>
 
 				<section aria-labelledby="now-heading">
 					<h2 id="now-heading">currently</h2>
@@ -102,12 +45,40 @@ const email = "n@nicklam.co";
 					</ul>
 				</section>
 
-				<section aria-labelledby="contact-heading">
-					<h2 id="contact-heading">email</h2>
+				<section aria-labelledby="eventually-heading">
+					<h2 id="eventually-heading">eventually</h2>
+					<ul class="now-list">
+						{eventuallyItems.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				</section>
+
+				<section aria-label="email">
 					<p><a href={`mailto:${email}`}>{email}</a></p>
+				</section>
+			</header>
+
+			<main>
+				<section aria-labelledby="work-heading">
+					<h2 id="work-heading">recently</h2>
+					<p class="work-sentence">
+						{recently.map((item) => (
+							<>
+								{item.verb}{" "}
+								{item.href ? <a href={item.href}>{item.title}</a> : item.title}
+								{item.descriptor && <>, {item.descriptor}</>}
+								{item.date && <> <sub class="date">({item.date})</sub></>}
+								{"; "}
+							</>
+						))}
+						and other <a href="/things">things</a>.
+					</p>
 				</section>
 			</main>
 		</div>
+
+		<footer class="colophon">last edited {lastEdited}</footer>
 	</body>
 </html>
 
@@ -122,7 +93,7 @@ const email = "n@nicklam.co";
 	}
 	:global(body) {
 		margin: 0;
-		background: #fdfdfb;
+		background: #f7f6f2;
 		color: #000;
 		font-family: "Times New Roman", Times, "Liberation Serif", "Nimbus Roman", serif;
 		font-size: 0.8125rem;
@@ -131,69 +102,62 @@ const email = "n@nicklam.co";
 	}
 
 	.page {
-		max-width: 38rem;
+		max-width: 76rem;
 		margin: 0 auto;
-		padding: 2.5rem 1.5rem 3rem;
+		padding: 3rem 2rem 4rem;
+		display: grid;
+		grid-template-columns: 15rem 1fr;
+		column-gap: 4rem;
+		align-items: start;
 	}
 
-	.intro {
-		margin-bottom: 2.5rem;
+	.masthead {
+		position: sticky;
+		top: 3rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
 	}
 
 	h1 {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
 		font-size: 1.25rem;
 		font-weight: 400;
-		margin: 0 0 0.4rem;
+		margin: 0;
+	}
+
+	.birth {
+		font-size: 0.6875rem;
+		font-style: italic;
+		letter-spacing: 0.02em;
+		color: #6b6b64;
 	}
 
 	.description {
 		margin: 0;
-		max-width: 32ch;
 		color: #000;
 	}
 
 	main {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 3rem;
+		max-width: 42rem;
 	}
 
 	h2 {
-		font-size: 0.75rem;
-		font-weight: 400;
-		font-style: italic;
+		font-size: 0.8125rem;
+		font-weight: 700;
 		color: #000;
-		margin: 0 0 0.75rem;
+		margin: 0 0 0.25rem;
 	}
 
-	.entry-list,
 	.now-list {
 		list-style: none;
 		margin: 0;
 		padding: 0;
-	}
-
-	.entry-list li {
-		margin-bottom: 0.75rem;
-	}
-	.entry-list li:last-child {
-		margin-bottom: 0;
-	}
-
-	.entry-list a {
-		color: inherit;
-	}
-
-	.entry-list .meta {
-		color: #000;
-		font-size: 0.75rem;
-		margin-left: 0.5rem;
-	}
-
-	.entry-list p {
-		margin: 0.125rem 0 0;
-		color: #000;
-		max-width: 42ch;
 	}
 
 	.now-list li {
@@ -203,21 +167,59 @@ const email = "n@nicklam.co";
 		margin-bottom: 0;
 	}
 
+	.work-sentence {
+		margin: 0;
+		font-size: 0.8125rem;
+		line-height: 1.85;
+	}
+
+	.work-sentence a {
+		color: inherit;
+	}
+
+	.work-sentence .date {
+		color: #6b6b64;
+		font-size: 0.6875rem;
+		font-variant-numeric: tabular-nums;
+		vertical-align: sub;
+	}
+
+	.colophon {
+		max-width: 76rem;
+		margin: 0 auto;
+		padding: 0 2rem 2.5rem;
+		color: #6b6b64;
+		font-size: 0.6875rem;
+		font-style: italic;
+	}
+
+	.colophon a {
+		color: inherit;
+	}
+
 	a {
 		color: #000;
 		text-decoration-color: #000;
 		text-underline-offset: 3px;
 	}
 
+	@media (max-width: 60rem) {
+		.page {
+			grid-template-columns: 1fr;
+			row-gap: 2.5rem;
+		}
+		.masthead {
+			position: static;
+		}
+	}
+
 	@media (max-width: 30rem) {
 		.page {
 			padding: 2rem 1.25rem 2.5rem;
-		}
-		.intro {
-			margin-bottom: 2rem;
+			row-gap: 2rem;
 		}
 		main {
-			gap: 1.5rem;
+			gap: 2rem;
 		}
 	}
 </style>

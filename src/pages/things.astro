@@ -1,0 +1,128 @@
+---
+import { things } from "../data/things";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<title>things — nick lam</title>
+		<meta name="description" content="a running list of things nick lam likes." />
+	</head>
+	<body>
+		<div class="page">
+			<header class="intro">
+				<a class="back" href="/">nick lam</a>
+				<h1>things</h1>
+			</header>
+
+			<main>
+				{Object.entries(things).map(([heading, items]) => (
+					<section aria-labelledby={`${heading.replace(/\s+/g, "-")}-heading`}>
+						<h2 id={`${heading.replace(/\s+/g, "-")}-heading`}>{heading}</h2>
+						<ul class="things-list">
+							{items.map((item) => (
+								<li>
+									{item.url ? <a href={item.url}>{item.name}</a> : item.name}
+									{item.note && <> — {item.note}</>}
+								</li>
+							))}
+						</ul>
+					</section>
+				))}
+			</main>
+		</div>
+	</body>
+</html>
+
+<style>
+	:global(html) {
+		box-sizing: border-box;
+	}
+	:global(*),
+	:global(*::before),
+	:global(*::after) {
+		box-sizing: inherit;
+	}
+	:global(body) {
+		margin: 0;
+		background: #f7f6f2;
+		color: #000;
+		font-family: "Times New Roman", Times, "Liberation Serif", "Nimbus Roman", serif;
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.page {
+		max-width: 45rem;
+		margin: 0 auto;
+		padding: 3rem 2rem 4rem;
+	}
+
+	.intro {
+		margin-bottom: 2.5rem;
+	}
+
+	.back {
+		display: inline-block;
+		font-size: 0.75rem;
+		color: #6b6b64;
+		text-decoration-color: #6b6b64;
+		margin-bottom: 1rem;
+	}
+
+	h1 {
+		font-size: 1.25rem;
+		font-weight: 400;
+		margin: 0;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	h2 {
+		font-size: 0.8125rem;
+		font-weight: 700;
+		color: #000;
+		margin: 0 0 0.25rem;
+	}
+
+	.things-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		font-size: 0.8125rem;
+	}
+
+	.things-list li {
+		margin-bottom: 0.4rem;
+	}
+	.things-list li:last-child {
+		margin-bottom: 0;
+	}
+
+	a {
+		color: #000;
+		text-decoration-color: #000;
+		text-underline-offset: 3px;
+	}
+
+	@media (max-width: 30rem) {
+		.page {
+			padding: 2rem 1.25rem 2.5rem;
+		}
+		.intro {
+			margin-bottom: 2rem;
+		}
+		main {
+			gap: 1.5rem;
+		}
+	}
+</style>
