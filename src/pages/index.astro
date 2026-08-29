@@ -33,7 +33,7 @@ const lastEdited = "08.29.2026";
 			<header class="masthead">
 				<h1>nick lam<span class="birth">b. 2004</span></h1>
 				<p class="description">
-					interested in cities, technology, and culture.
+					working on a few things.
 				</p>
 
 				<section aria-labelledby="now-heading">
@@ -66,8 +66,10 @@ const lastEdited = "08.29.2026";
 						{recently.map((item) => (
 							<>
 								{item.verb}{" "}
+								{item.prefix && <>{item.prefix}{" "}</>}
 								{item.href ? <a href={item.href}>{item.title}</a> : item.title}
 								{item.descriptor && <>, {item.descriptor}</>}
+								{item.suffix && <> {item.suffix}</>}
 								{item.date && <> <sub class="date">({item.date})</sub></>}
 								{"; "}
 							</>
@@ -145,6 +147,7 @@ const lastEdited = "08.29.2026";
 		flex-direction: column;
 		gap: 3rem;
 		max-width: 42rem;
+		margin-top: 7rem;
 	}
 
 	h2 {
@@ -210,6 +213,9 @@ const lastEdited = "08.29.2026";
 		}
 		.masthead {
 			position: static;
+		}
+		main {
+			margin-top: 0;
 		}
 	}
 

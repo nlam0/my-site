@@ -2,11 +2,21 @@ export type RecentItem = {
 	verb: string;
 	title: string;
 	href?: string;
+	prefix?: string;
 	descriptor?: string;
+	suffix?: string;
 	date?: string;
 };
 
 export const recently: RecentItem[] = [
+	{
+		verb: "completed",
+		prefix: "a BA in",
+		title: "Urban Studies",
+		href: "https://bulletin.columbia.edu/columbia-college/departments-instruction/urban-studies/",
+		suffix: "at Columbia University",
+		date: "05.20.2026",
+	},
 	{
 		verb: "wrote",
 		title: "title of an essay or post",
