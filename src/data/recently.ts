@@ -4,6 +4,8 @@ export type RecentItem = {
 	href?: string;
 	prefix?: string;
 	descriptor?: string;
+	descriptorLinkText?: string;
+	descriptorHref?: string;
 	suffix?: string;
 	date?: string;
 };
@@ -19,41 +21,17 @@ export const recently: RecentItem[] = [
 	},
 	{
 		verb: "wrote",
-		title: "title of an essay or post",
-		href: "https://example.com",
-		date: "01.15.2026",
+		title: "Garden Song",
+		descriptor: "a poem for Quarto Magazine",
+		descriptorLinkText: "Quarto",
+		descriptorHref: "https://quartomagazine.com/poetry/2026/3/2/garden-song-by-nick-lam-ac5sg",
+		date: "03.09.2026",
 	},
 	{
-		verb: "wrote",
-		title: "another piece of writing",
-		href: "https://example.com",
-		date: "09.08.2025",
-	},
-	{
-		verb: "wrote",
-		title: "a third piece worth linking",
-		href: "https://example.com",
-		date: "03.02.2025",
-	},
-	{
-		verb: "built",
-		title: "project one",
-		href: "https://example.com",
-		descriptor: "a short descriptor of the project, written in apposition",
-		date: "04.12.2024",
-	},
-	{
-		verb: "designed",
-		title: "project two",
-		href: "https://example.com",
-		descriptor: "another descriptor, naming who it was for or what it explored",
-		date: "09.03.2023",
-	},
-	{
-		verb: "shipped",
-		title: "project three",
-		href: "https://example.com",
-		descriptor: "a third descriptor, kept plain and specific",
-		date: "01.22.2022",
+		verb: "created",
+		title: "breath",
+		href: "/breath-zine.pdf",
+		descriptor: "a zine for Columbia's Histories of the Bronx course",
+		date: "12.14.2025",
 	},
 ];

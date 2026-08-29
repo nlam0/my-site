@@ -68,7 +68,20 @@ const lastEdited = "08.29.2026";
 								{item.verb}{" "}
 								{item.prefix && <>{item.prefix}{" "}</>}
 								{item.href ? <a href={item.href}>{item.title}</a> : item.title}
-								{item.descriptor && <>, {item.descriptor}</>}
+								{item.descriptor && (
+									<>
+										,{" "}
+										{item.descriptorHref && item.descriptorLinkText && item.descriptor.includes(item.descriptorLinkText) ? (
+											<>
+												{item.descriptor.slice(0, item.descriptor.indexOf(item.descriptorLinkText))}
+												<a href={item.descriptorHref}>{item.descriptorLinkText}</a>
+												{item.descriptor.slice(item.descriptor.indexOf(item.descriptorLinkText) + item.descriptorLinkText.length)}
+											</>
+										) : (
+											item.descriptor
+										)}
+									</>
+								)}
 								{item.suffix && <> {item.suffix}</>}
 								{item.date && <> <sub class="date">({item.date})</sub></>}
 								{"; "}
