@@ -1,5 +1,5 @@
 ---
-import { things } from "../data/things";
+import { things, italicCategories } from "../data/things";
 ---
 
 <html lang="en">
@@ -26,8 +26,19 @@ import { things } from "../data/things";
 						<ul class="things-list">
 							{items.map((item) => (
 								<li>
-									{item.url ? <a href={item.url}>{item.name}</a> : item.name}
-									{item.note && <> — {item.note}</>}
+									<p
+										class="thing-name"
+										class:list={[{ roman: !italicCategories.has(heading) }]}
+									>
+										{item.url ? <a href={item.url}>{item.name}</a> : item.name}
+									</p>
+									{(item.meta || item.note) && (
+										<p class="thing-detail">
+											{item.meta}
+											{item.meta && item.note && " · "}
+											{item.note}
+										</p>
+									)}
 								</li>
 							))}
 						</ul>
@@ -60,23 +71,22 @@ import { things } from "../data/things";
 	.page {
 		max-width: 45rem;
 		margin: 0 auto;
-		padding: 3rem 2rem 4rem;
+		padding: 2rem 2rem 2.5rem;
 	}
 
 	.intro {
-		margin-bottom: 2.5rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.back {
 		display: inline-block;
-		font-size: 0.75rem;
+		font-size: 0.6875rem;
 		color: #6b6b64;
-		text-decoration-color: #6b6b64;
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
 	}
 
 	h1 {
-		font-size: 1.25rem;
+		font-size: 1.125rem;
 		font-weight: 400;
 		margin: 0;
 	}
@@ -88,9 +98,10 @@ import { things } from "../data/things";
 	}
 
 	h2 {
-		font-size: 0.8125rem;
-		font-weight: 700;
-		color: #000;
+		font-size: 0.75rem;
+		font-weight: 400;
+		letter-spacing: 0.05em;
+		color: #6b6b64;
 		margin: 0 0 0.25rem;
 	}
 
@@ -98,28 +109,52 @@ import { things } from "../data/things";
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		font-size: 0.8125rem;
 	}
 
 	.things-list li {
-		margin-bottom: 0.4rem;
+		margin-bottom: 0.625rem;
 	}
 	.things-list li:last-child {
 		margin-bottom: 0;
 	}
 
+	.thing-name {
+		font-size: 0.875rem;
+		font-style: italic;
+		font-weight: 400;
+		color: #000;
+		margin: 0;
+		line-height: 1.4;
+	}
+
+	.thing-name.roman {
+		font-style: normal;
+	}
+
+	.thing-detail {
+		font-size: 0.75rem;
+		font-style: normal;
+		color: #000;
+		margin: 0.15rem 0 0;
+	}
+
 	a {
 		color: #000;
-		text-decoration-color: #000;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+		text-decoration-color: currentColor;
 		text-underline-offset: 3px;
 	}
 
 	@media (max-width: 30rem) {
 		.page {
-			padding: 2rem 1.25rem 2.5rem;
+			padding: 1.5rem 1.25rem 2rem;
 		}
 		.intro {
-			margin-bottom: 2rem;
+			margin-bottom: 1.25rem;
 		}
 		main {
 			gap: 1.5rem;
