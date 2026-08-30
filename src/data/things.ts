@@ -2,7 +2,9 @@ export type ThingItem = {
 	name: string;
 	meta?: string;
 	note?: string;
+	caption?: string;
 	url?: string;
+	image?: string;
 };
 
 export const things: Record<string, ThingItem[]> = {
@@ -10,11 +12,41 @@ export const things: Record<string, ThingItem[]> = {
 		{
 			name: "Dinner Party",
 			meta: "Clinton Hill, Brooklyn",
-			note: "the candles",
+			caption: "the candles",
+			image: "/images/things/dinner-party.jpg",
+		},
+		{
+			name: "Bong",
+			meta: "Crown Heights, Brooklyn",
+		},
+		{
+			name: "Pizza 4P's",
+			meta: "Greenpoint, Brooklyn",
 		},
 	],
-	records: [{ name: "All I Needed", meta: "Nate Sib", note: "2026" }],
-	coffee: [{ name: "Maru", meta: "Williamsburg", note: "Kemi Blend" }],
+	records: [
+		{
+			name: "All I Needed",
+			meta: "Nate Sib",
+			note: "2026",
+			caption: "Reborn track 7",
+			image: "/images/things/all-i-needed.jpg",
+		},
+	],
+	coffee: [
+		{
+			name: "Maru",
+			meta: "Williamsburg",
+			note: "Kemi Blend",
+			caption: "brought to you by LA",
+			image: "/images/things/maru.jpg",
+		},
+		{
+			name: "Fa San",
+			meta: "Lower East Side",
+			note: "red bean memory",
+		},
+	],
 };
 
 // Categories whose items are titles of a work (album, book, film) and so

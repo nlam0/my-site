@@ -14,38 +14,91 @@ import { things, italicCategories } from "../data/things";
 	</head>
 	<body>
 		<div class="page">
-			<header class="intro">
-				<a class="back" href="/">nick lam</a>
-				<h1>things</h1>
-			</header>
+			<div class="content">
+				<header class="intro">
+					<a class="back" href="/">nick lam</a>
+					<h1>things</h1>
+				</header>
 
-			<main>
-				{Object.entries(things).map(([heading, items]) => (
-					<section aria-labelledby={`${heading.replace(/\s+/g, "-")}-heading`}>
-						<h2 id={`${heading.replace(/\s+/g, "-")}-heading`}>{heading}</h2>
-						<ul class="things-list">
-							{items.map((item) => (
-								<li>
-									<p
-										class="thing-name"
-										class:list={[{ roman: !italicCategories.has(heading) }]}
+				<main>
+					{Object.entries(things).map(([heading, items]) => (
+						<section aria-labelledby={`${heading.replace(/\s+/g, "-")}-heading`}>
+							<h2 id={`${heading.replace(/\s+/g, "-")}-heading`}>{heading}</h2>
+							<ul class="things-list">
+								{items.map((item) => (
+									<li
+										class="thing-item"
+										data-image={item.image}
+										data-caption={item.caption}
+										tabindex={item.image ? 0 : undefined}
 									>
-										{item.url ? <a href={item.url}>{item.name}</a> : item.name}
-									</p>
-									{(item.meta || item.note) && (
-										<p class="thing-detail">
-											{item.meta}
-											{item.meta && item.note && " · "}
-											{item.note}
+										<p
+											class="thing-name"
+											class:list={[{ roman: !italicCategories.has(heading) }]}
+										>
+											{item.url ? <a href={item.url}>{item.name}</a> : item.name}
+											{item.image && (
+												<span class="note-marker" aria-hidden="true">&middot;</span>
+											)}
 										</p>
-									)}
-								</li>
-							))}
-						</ul>
-					</section>
-				))}
-			</main>
+										{(item.meta || item.note) && (
+											<p class="thing-detail">
+												{item.meta}
+												{item.meta && item.note && " · "}
+												{item.note}
+											</p>
+										)}
+									</li>
+								))}
+							</ul>
+						</section>
+					))}
+				</main>
+			</div>
+
+			<aside class="preview" aria-hidden="true">
+				<img class="preview-image" alt="" hidden />
+				<p class="preview-note"></p>
+			</aside>
 		</div>
+
+		<script>
+			const items = document.querySelectorAll<HTMLLIElement>(".thing-item");
+			const preview = document.querySelector<HTMLElement>(".preview");
+			const previewImage = document.querySelector<HTMLImageElement>(".preview-image");
+			const previewNote = document.querySelector<HTMLElement>(".preview-note");
+
+			function show(li: HTMLLIElement) {
+				const image = li.dataset.image;
+				const caption = li.dataset.caption ?? "";
+
+				if (!image && !caption) return;
+
+				if (image && previewImage) {
+					previewImage.src = image;
+					previewImage.hidden = false;
+				} else if (previewImage) {
+					previewImage.hidden = true;
+				}
+
+				if (previewNote) {
+					previewNote.textContent = caption;
+					previewNote.hidden = !caption;
+				}
+				preview?.classList.add("visible");
+			}
+
+			function hide() {
+				preview?.classList.remove("visible");
+			}
+
+			items.forEach((li) => {
+				li.addEventListener("mouseenter", () => show(li));
+				li.addEventListener("mouseleave", hide);
+				li.addEventListener("focusin", () => show(li));
+				li.addEventListener("focusout", hide);
+			});
+		</script>
 	</body>
 </html>
 
@@ -69,9 +122,50 @@ import { things, italicCategories } from "../data/things";
 	}
 
 	.page {
-		max-width: 45rem;
+		max-width: 65rem;
 		margin: 0 auto;
 		padding: 2rem 2rem 2.5rem;
+		display: grid;
+		grid-template-columns: 1fr 18rem;
+		column-gap: 3rem;
+		align-items: start;
+	}
+
+	.content {
+		max-width: 45rem;
+	}
+
+	.preview {
+		position: sticky;
+		top: 2rem;
+	}
+
+	.preview-image {
+		display: block;
+		width: 100%;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	.preview-image[hidden] {
+		display: none;
+	}
+
+	.preview.visible .preview-image:not([hidden]) {
+		opacity: 1;
+	}
+
+	.preview-note {
+		margin: 0.5rem 0 0;
+		font-size: 0.75rem;
+		font-style: italic;
+		color: #6b6b64;
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	.preview.visible .preview-note {
+		opacity: 1;
 	}
 
 	.intro {
@@ -112,7 +206,7 @@ import { things, italicCategories } from "../data/things";
 	}
 
 	.things-list li {
-		margin-bottom: 0.625rem;
+		margin-bottom: 0.375rem;
 	}
 	.things-list li:last-child {
 		margin-bottom: 0;
@@ -131,6 +225,21 @@ import { things, italicCategories } from "../data/things";
 		font-style: normal;
 	}
 
+	.note-marker {
+		display: none;
+		margin-left: 0.2rem;
+		font-size: 1.125rem;
+		line-height: 1;
+		vertical-align: middle;
+		color: #6b6b64;
+	}
+
+	@media (min-width: 60.0625rem) {
+		.note-marker {
+			display: inline-block;
+		}
+	}
+
 	.thing-detail {
 		font-size: 0.75rem;
 		font-style: normal;
@@ -147,6 +256,16 @@ import { things, italicCategories } from "../data/things";
 		text-decoration: underline;
 		text-decoration-color: currentColor;
 		text-underline-offset: 3px;
+	}
+
+	@media (max-width: 60rem) {
+		.page {
+			grid-template-columns: 1fr;
+			max-width: 45rem;
+		}
+		.preview {
+			display: none;
+		}
 	}
 
 	@media (max-width: 30rem) {

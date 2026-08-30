@@ -1,4 +1,5 @@
 ---
+import { execSync } from "node:child_process";
 import { recently } from "../data/recently";
 
 const nowItems = [
@@ -15,7 +16,9 @@ const eventuallyItems = [
 ];
 
 const email = "n@nicklam.co";
-const lastEdited = "08.29.2026";
+const lastEdited = execSync("git log -1 --format=%cd --date=format:%m.%d.%Y")
+	.toString()
+	.trim();
 ---
 
 <html lang="en">
