@@ -5,6 +5,7 @@ export type ThingItem = {
 	caption?: string;
 	url?: string;
 	image?: string;
+	color?: string;
 };
 
 export const things: Record<string, ThingItem[]> = {
@@ -19,10 +20,6 @@ export const things: Record<string, ThingItem[]> = {
 			name: "Bong",
 			meta: "Crown Heights, Brooklyn",
 		},
-		{
-			name: "Pizza 4P's",
-			meta: "Greenpoint, Brooklyn",
-		},
 	],
 	records: [
 		{
@@ -31,6 +28,21 @@ export const things: Record<string, ThingItem[]> = {
 			note: "2026",
 			caption: "Reborn track 7",
 			image: "/images/things/all-i-needed.jpg",
+		},
+	],
+	books: [
+		{
+			name: "The Topeka School",
+			meta: "Ben Lerner",
+			note: "2019",
+		},
+		{
+			name: "Dictee",
+			meta: "Theresa Hak Kyung Cha",
+			note: "1982",
+			color: "#c1595a",
+			caption: "postmodernity",
+			image: "/images/things/dictee.jpg",
 		},
 	],
 	coffee: [

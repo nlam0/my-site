@@ -35,6 +35,7 @@ import { things, italicCategories } from "../data/things";
 										<p
 											class="thing-name"
 											class:list={[{ roman: !italicCategories.has(heading) }]}
+											style={item.color ? `color: ${item.color}` : undefined}
 										>
 											{item.url ? <a href={item.url}>{item.name}</a> : item.name}
 											{item.image && (
@@ -68,6 +69,55 @@ import { things, italicCategories } from "../data/things";
 			const previewImage = document.querySelector<HTMLImageElement>(".preview-image");
 			const previewNote = document.querySelector<HTMLElement>(".preview-note");
 
+			// deterministic pseudo-random in [0, 1), seeded by string so a given
+			// item always lands in the same spot rather than jumping around
+			function seededRandom(seed: string) {
+				let hash = 0;
+				for (let i = 0; i < seed.length; i++) {
+					hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+				}
+				return (hash >>> 0) / 4294967295;
+			}
+
+			function positionPreview(li: HTMLLIElement) {
+				if (!preview) return;
+
+				const width = preview.offsetWidth || 288;
+				const vw = window.innerWidth;
+
+				if (li.dataset.image === "/images/things/dinner-party.jpg") {
+					preview.style.left = `${vw - width - 96}px`;
+					preview.style.top = "96px";
+					return;
+				}
+
+				const seed = "v2:" + (li.dataset.image ?? li.textContent ?? "");
+				const hRand = seededRandom(seed + "h");
+				const vRand = seededRandom(seed + "v");
+				const jitterX = (seededRandom(seed + "jx") - 0.5) * 40;
+				const jitterY = (seededRandom(seed + "jy") - 0.5) * 40;
+
+				const vh = window.innerHeight;
+
+				// horizontal range: from roughly a third across the screen to the
+				// right edge, so previews cluster nearer the middle than the edge
+				const minLeft = vw * 0.3;
+				const maxLeft = Math.max(minLeft, Math.min(vw - width - 32, vw * 0.68));
+				let left = minLeft + (maxLeft - minLeft) * hRand + jitterX;
+
+				// vertical range: from near the top down past the midpoint of the
+				// viewport, so previews aren't all pinned at the same height
+				const minTop = 80;
+				const maxTop = Math.max(minTop, vh * 0.6);
+				let top = minTop + (maxTop - minTop) * vRand + jitterY;
+
+				left = Math.min(Math.max(left, 16), vw - width - 16);
+				top = Math.min(Math.max(top, 16), vh - 140);
+
+				preview.style.left = `${left}px`;
+				preview.style.top = `${top}px`;
+			}
+
 			function show(li: HTMLLIElement) {
 				const image = li.dataset.image;
 				const caption = li.dataset.caption ?? "";
@@ -85,6 +135,7 @@ import { things, italicCategories } from "../data/things";
 					previewNote.textContent = caption;
 					previewNote.hidden = !caption;
 				}
+				positionPreview(li);
 				preview?.classList.add("visible");
 			}
 
@@ -136,8 +187,12 @@ import { things, italicCategories } from "../data/things";
 	}
 
 	.preview {
-		position: sticky;
+		position: fixed;
 		top: 2rem;
+		left: calc(100% - 20rem);
+		width: 18rem;
+		pointer-events: none;
+		z-index: 10;
 	}
 
 	.preview-image {
