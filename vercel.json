@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/division",
+      "destination": "https://division-theta.vercel.app/division"
+    },
+    {
+      "source": "/division/:path*",
+      "destination": "https://division-theta.vercel.app/division/:path*"
+    }
+  ]
+}
