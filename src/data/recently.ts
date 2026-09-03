@@ -16,7 +16,7 @@ export const recently: RecentItem[] = [
 		title: "division",
 		href: "https://nicklam.co/division",
 		descriptor: "tracking development across lower manhattan through public records",
-		date: "2026",
+		date: "08.31.2026",
 	},
 	{
 		verb: "completed",
