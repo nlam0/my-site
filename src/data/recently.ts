@@ -12,6 +12,13 @@ export type RecentItem = {
 
 export const recently: RecentItem[] = [
 	{
+		verb: "built",
+		title: "division",
+		href: "https://nicklam.co/division",
+		descriptor: "tracking development across lower manhattan through public records",
+		date: "2026",
+	},
+	{
 		verb: "completed",
 		prefix: "a BA in",
 		title: "Urban Studies",
