@@ -7,6 +7,14 @@
     {
       "source": "/division/:path*",
       "destination": "https://division-theta.vercel.app/division/:path*"
+    },
+    {
+      "source": "/menh",
+      "destination": "https://astro-chi-dun.vercel.app/menh"
+    },
+    {
+      "source": "/menh/:path*",
+      "destination": "https://astro-chi-dun.vercel.app/menh/:path*"
     }
   ]
 }
